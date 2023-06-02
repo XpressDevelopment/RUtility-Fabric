@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "rutility",
+  "version": "${version}",
+  "name": "RUtility",
+  "description": "Utility Mod for Roanoke",
+  "authors": [
+    "GuitarXpress"
+  ],
+  "contact": {
+    "repo": ""
+  },
+  "license": "",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "network.roanoke.rutility.RUtility"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.10",
+    "fabric": "*",
+    "minecraft": "1.19.2",
+    "cobblemon": ">=1.2.0+1.19.2"
+  }
+}
