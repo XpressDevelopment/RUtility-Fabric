@@ -5,7 +5,7 @@ import network.roanoke.rutility.RModule
 import network.roanoke.rutility.RUtility
 import network.roanoke.rutility.modules.shinyalert.events.ServerTickHandler
 
-class ShinyAlert(private val main: RUtility, override val name: String): RModule {
+class ShinyAlert(override val main: RUtility, override val name: String): RModule {
     private var enabled = false
 
     init {

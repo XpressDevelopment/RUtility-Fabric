@@ -3,6 +3,11 @@ package network.roanoke.rutility
 interface RModule {
 
     /**
+     * Main class
+     */
+    val main: RUtility
+
+    /**
      * Returns the name of the module for easier search.
      * @return Module Name
      */
