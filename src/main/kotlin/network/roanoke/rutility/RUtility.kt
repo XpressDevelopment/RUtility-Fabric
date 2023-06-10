@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.minecraft.server.MinecraftServer
 import network.roanoke.rutility.modules.catchcombo.CatchCombo
+import network.roanoke.rutility.modules.changeivs.ChangeIVs
 import network.roanoke.rutility.modules.shinyalert.ShinyAlert
 import network.roanoke.rutility.utils.ModulesConfig
 
@@ -15,8 +16,6 @@ class RUtility : ModInitializer {
         val serverInstance: MinecraftServer
             get() = _serverInstance
     }
-
-    private lateinit var commandRUtility: CRUtility
 
     private val _modules: MutableList<RModule> = mutableListOf()
     val modules: MutableList<RModule>
@@ -35,7 +34,7 @@ class RUtility : ModInitializer {
         _modulesCfg = ModulesConfig(this)
         _modulesCfg.createFolder()
 
-        commandRUtility = CRUtility(this)
+        CRUtility(this)
         ServerLifecycleEvents.SERVER_STARTED.register { server: MinecraftServer ->
             _serverInstance = server
         }
@@ -54,6 +53,7 @@ class RUtility : ModInitializer {
     private fun addModules() {
         _modules.add(ShinyAlert(this, "ShinyAlert"))
         _modules.add(CatchCombo(this, "CatchCombo"))
+        _modules.add(ChangeIVs(this, "ChangeIVs"))
     }
 
     fun getModuleNames(): MutableList<String> {

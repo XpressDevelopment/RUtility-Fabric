@@ -24,6 +24,20 @@ class Utils {
 
             return playerManager.getPlayer(uuid)
         }
+
+        fun getPlayerByName(name: String): ServerPlayerEntity? {
+            val server = RUtility.serverInstance
+            val playerManager = server.playerManager
+
+            return playerManager.getPlayer(name)
+        }
+
+        fun getAllPlayerNames(): Array<out String>? {
+            val server = RUtility.serverInstance
+            val playerManager = server.playerManager
+
+            return playerManager.playerNames
+        }
     }
 
 

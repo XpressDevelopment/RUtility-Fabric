@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import network.roanoke.rutility.modules.catchcombo.events.ServerTickHandler
 import network.roanoke.rutility.RModule
 import network.roanoke.rutility.RUtility
+import network.roanoke.rutility.modules.catchcombo.commands.Combo
 import network.roanoke.rutility.modules.catchcombo.events.CaptureEvent
 import network.roanoke.rutility.modules.catchcombo.events.PlayerJoin
 import java.util.*
@@ -26,7 +27,7 @@ class CatchCombo(override val main: RUtility, override val name: String) : RModu
 
 
     val comboCategories: List<ComboCategory> = listOf(
-        //ComboCategory(0, 10, 1.1, 0, 1.0),
+        ComboCategory(0, 10, 1.1, 0, 0.0),
         ComboCategory(11, 20, 1.5, 2, 1.4),
         ComboCategory(21, 30, 2.0, 3, 1.8),
         ComboCategory(31, Int.MAX_VALUE, 3.0, 4, 2.2)
@@ -37,6 +38,7 @@ class CatchCombo(override val main: RUtility, override val name: String) : RModu
         get() = _comboConfig
 
     init {
+        Combo(this)
         _comboConfig.createFolders()
         CaptureEvent(this)
         ServerPlayConnectionEvents.JOIN.register(PlayerJoin(this))
@@ -51,5 +53,13 @@ class CatchCombo(override val main: RUtility, override val name: String) : RModu
     override fun enable(enabled: Boolean) {
         this.enabled = enabled
         main.setModuleStatus(name, enabled)
+    }
+
+    fun setComboAmount(uuid: UUID, amount: Int) {
+        _comboAmount[uuid] = amount
+    }
+
+    fun setComboSpecies(uuid: UUID, pokemon: String) {
+        _comboPokemon[uuid] = pokemon
     }
 }
