@@ -6,6 +6,7 @@ import net.minecraft.server.MinecraftServer
 import network.roanoke.rutility.modules.catchcombo.CatchCombo
 import network.roanoke.rutility.modules.changeivs.ChangeIVs
 import network.roanoke.rutility.modules.shinyalert.ShinyAlert
+import network.roanoke.rutility.modules.togglespawns.ToggleSpawns
 import network.roanoke.rutility.utils.ModulesConfig
 
 class RUtility : ModInitializer {
@@ -54,6 +55,7 @@ class RUtility : ModInitializer {
         _modules.add(ShinyAlert(this, "ShinyAlert"))
         _modules.add(CatchCombo(this, "CatchCombo"))
         _modules.add(ChangeIVs(this, "ChangeIVs"))
+        _modules.add(ToggleSpawns(this, "ToggleSpawns"))
     }
 
     fun getModuleNames(): MutableList<String> {
