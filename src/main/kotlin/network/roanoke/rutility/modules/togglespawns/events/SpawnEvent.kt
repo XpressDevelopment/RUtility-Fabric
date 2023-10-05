@@ -19,8 +19,8 @@ class SpawnEvent(private val module: ToggleSpawns) {
             val uuid = Utils.getPlayerByName(player)?.uuid
 
             if (module.isToggled(uuid!!))
-                it.cancel()
-                //it.entity.remove(Entity.RemovalReason.DISCARDED)
+                //it.cancel()
+                it.entity.remove(Entity.RemovalReason.DISCARDED) // Will produce console warning spam
         }
     }
 
