@@ -5,7 +5,6 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
-import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.suggestion.SuggestionProvider
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
@@ -21,7 +20,9 @@ class Combo(private val module: CatchCombo) {
         CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->
             dispatcher.register(
                 CommandManager.literal("catchcombo")
-                    .then(CommandManager.literal("reload").requires { it.hasPermissionLevel(2) }).executes(reloadCombos())
+                    .then(CommandManager.literal("info").executes(comboInfo()))
+                    .then(CommandManager.literal("reload").requires { it.hasPermissionLevel(2) })
+                    .executes(reloadCombos())
                     .then(CommandManager.literal("set").requires { it.hasPermissionLevel(2) }
                         .then(
                             CommandManager.argument("player", StringArgumentType.string())
@@ -39,6 +40,26 @@ class Combo(private val module: CatchCombo) {
         })
     }
 
+    private fun comboInfo(): Command<ServerCommandSource>? {
+        return Command {
+            val source = it.source
+            if (!module.isEnabled()) {
+                source.sendMessage(Text.literal("§cCatchCombos is disabled"))
+                return@Command 0
+            }
+
+            val uuid = it.source.entity?.uuid
+
+            if (module.comboPokemon[uuid].isNullOrEmpty()) {
+                source.sendMessage(Text.literal("§cYou don't have a combo chain"))
+            } else {
+                source.sendMessage(Text.literal("§eCurrent Chain: §6${module.comboPokemon[uuid]}\n§eChain Amount: §6${module.comboAmount[uuid]}"))
+            }
+
+            1
+        }
+    }
+
     private fun reloadCombos(): Command<ServerCommandSource>? {
         return Command {
             module.comboConfig.loadPlayerCombos()
@@ -51,7 +72,8 @@ class Combo(private val module: CatchCombo) {
             val source = context.source
 
             if (!module.isEnabled()) {
-                source.sendFeedback(Text.literal("§Module is disabled"), false)
+                source.sendMessage(Text.literal("§cModule is disabled"))
+                //source.sendFeedback(Text.literal("§cModule is disabled"), false)
                 return@Command 0
             }
 
@@ -61,7 +83,8 @@ class Combo(private val module: CatchCombo) {
 
             val player = Utils.getPlayerByName(playerName)
             if (player == null) {
-                source.sendFeedback(Text.literal("§cInvalid player"), false)
+                source.sendMessage(Text.literal("§cInvalid player"))
+                //source.sendFeedback(Text.literal("§cInvalid player"), false)
                 return@Command 0
             }
 
@@ -72,7 +95,8 @@ class Combo(private val module: CatchCombo) {
             }
 
             if (!found) {
-                source.sendFeedback(Text.literal("§cInvalid species (Case Sensitive)"), false)
+                source.sendMessage(Text.literal("§cInvalid species (Case Sensitive)"))
+                //source.sendFeedback(Text.literal("§cInvalid species (Case Sensitive)"), false)
                 return@Command 0
             }
 
@@ -81,7 +105,8 @@ class Combo(private val module: CatchCombo) {
 
             module.comboConfig.savePlayerCombo(player.uuid)
 
-            source.sendFeedback(Text.literal("§aSet $playerName's Catch Combo of $species to $amount."), true)
+            source.sendMessage(Text.literal("§aSet $playerName's Catch Combo of $species to $amount."))
+            //source.sendFeedback(Text.literal("§aSet $playerName's Catch Combo of $species to $amount."), true)
             1
         }
     }

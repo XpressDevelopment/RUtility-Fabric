@@ -8,6 +8,7 @@ import network.roanoke.rutility.RUtility
 import network.roanoke.rutility.modules.catchcombo.commands.Combo
 import network.roanoke.rutility.modules.catchcombo.events.CaptureEvent
 import network.roanoke.rutility.modules.catchcombo.events.PlayerJoin
+import network.roanoke.rutility.modules.catchcombo.events.SpawnEvent
 import java.util.*
 
 class CatchCombo(override val main: RUtility, override val name: String) : RModule {
@@ -31,6 +32,7 @@ class CatchCombo(override val main: RUtility, override val name: String) : RModu
         ComboCategory(11, 20, 1.5, 2, 1.4),
         ComboCategory(21, 30, 2.0, 3, 1.8),
         ComboCategory(31, Int.MAX_VALUE, 3.0, 4, 2.2)
+        //ComboCategory(31, Int.MAX_VALUE, 3.0, 4, 8192.0)
     )
 
     private val _comboConfig: ComboConfig = ComboConfig(this)
@@ -41,8 +43,9 @@ class CatchCombo(override val main: RUtility, override val name: String) : RModu
         Combo(this)
         _comboConfig.createFolders()
         CaptureEvent(this)
+        SpawnEvent(this)
         ServerPlayConnectionEvents.JOIN.register(PlayerJoin(this))
-        ServerTickEvents.START_SERVER_TICK.register(ServerTickHandler(main, this))
+        //ServerTickEvents.START_SERVER_TICK.register(ServerTickHandler(main, this))
         _comboConfig.loadPlayerCombos()
     }
 
@@ -61,5 +64,15 @@ class CatchCombo(override val main: RUtility, override val name: String) : RModu
 
     fun setComboSpecies(uuid: UUID, pokemon: String) {
         _comboPokemon[uuid] = pokemon
+    }
+
+    fun getPlayerCombo(uuid: UUID): MutableMap<String, Int> {
+        val combo = mutableMapOf<String, Int>()
+        if (comboPokemon[uuid].isNullOrBlank()) {
+            combo["null"] = 0
+        } else {
+            combo[comboPokemon[uuid]!!] = comboAmount[uuid]!!
+        }
+        return combo
     }
 }

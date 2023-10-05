@@ -24,7 +24,7 @@ class CaptureEvent(private val module: CatchCombo) {
                 comboAmount[uuid] = comboAmount[uuid]!!.plus(1)
             }
 
-            it.player.sendMessage(it.pokemon.displayName.append(Text.literal(" Catch Combo: ${comboAmount[uuid]}")))
+            it.player.sendMessage(Text.literal("${it.pokemon.species.name} Catch Combo: ${comboAmount[uuid]}"))
 
             // Apply combo effects
 

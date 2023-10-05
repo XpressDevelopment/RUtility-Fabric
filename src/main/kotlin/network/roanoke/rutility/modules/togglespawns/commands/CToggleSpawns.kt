@@ -22,7 +22,8 @@ class CToggleSpawns(private val module: ToggleSpawns) {
             module.togglePlayer(uuid)
             val spawnsEnabled = !module.isToggled(uuid)
             module.saveToggledPlayers()
-            it.source.sendFeedback(Text.literal(if (spawnsEnabled) "§aEnabled Pokemon Spawning" else "§aDisabled Pokemon Spawning"), false)
+            it.source.sendMessage(Text.literal(if (spawnsEnabled) "§aEnabled Pokemon Spawning" else "§aDisabled Pokemon Spawning"))
+            //it.source.sendFeedback(Text.literal(if (spawnsEnabled) "§aEnabled Pokemon Spawning" else "§aDisabled Pokemon Spawning"), false)
             1
         }
     }

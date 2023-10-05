@@ -26,7 +26,8 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
-    modImplementation("curse.maven:cobblemon-687131:${property("cobblemon_curse_file_id")}")
+    //modImplementation("curse.maven:cobblemon-687131:${property("cobblemon_curse_file_id")}")
+    modImplementation("com.cobblemon:fabric:1.4.0+1.20.1-SNAPSHOT")
 
     modImplementation("dev.architectury", "architectury-fabric", "6.5.69")
 }

@@ -7,6 +7,7 @@ import network.roanoke.rutility.RModule
 import network.roanoke.rutility.RUtility
 import network.roanoke.rutility.modules.shinyalert.events.CaptureEvent
 import network.roanoke.rutility.modules.shinyalert.events.ServerTickHandler
+import network.roanoke.rutility.modules.shinyalert.events.SpawnEvent
 import java.util.UUID
 
 class ShinyAlert(override val main: RUtility, override val name: String) : RModule {
@@ -16,8 +17,9 @@ class ShinyAlert(override val main: RUtility, override val name: String) : RModu
         get() = _shinyEntities
 
     init {
-        ServerTickEvents.START_SERVER_TICK.register(ServerTickHandler(this))
-        CaptureEvent(this)
+        //ServerTickEvents.START_SERVER_TICK.register(ServerTickHandler(this))
+        //CaptureEvent(this)
+        SpawnEvent(this)
     }
 
     override fun isEnabled(): Boolean {

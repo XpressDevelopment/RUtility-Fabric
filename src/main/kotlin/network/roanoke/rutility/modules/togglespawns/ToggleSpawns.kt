@@ -5,6 +5,7 @@ import network.roanoke.rutility.RModule
 import network.roanoke.rutility.RUtility
 import network.roanoke.rutility.modules.togglespawns.commands.CToggleSpawns
 import network.roanoke.rutility.modules.togglespawns.events.ServerTickHandler
+import network.roanoke.rutility.modules.togglespawns.events.SpawnEvent
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -16,7 +17,8 @@ class ToggleSpawns(override val main: RUtility, override val name: String) : RMo
 
     init {
         config.loadToggledPlayers()
-        ServerTickEvents.START_SERVER_TICK.register(ServerTickHandler(main, this))
+        //ServerTickEvents.START_SERVER_TICK.register(ServerTickHandler(main, this))
+        SpawnEvent(this)
         CToggleSpawns(this)
     }
 
