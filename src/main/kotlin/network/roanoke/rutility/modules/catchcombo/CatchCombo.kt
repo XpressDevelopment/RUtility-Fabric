@@ -29,9 +29,9 @@ class CatchCombo(override val main: RUtility, override val name: String) : RModu
 
     val comboCategories: List<ComboCategory> = listOf(
         ComboCategory(0, 10, 1.1, 0, 0.0),
-        ComboCategory(11, 20, 1.5, 2, 1.4),
-        ComboCategory(21, 30, 2.0, 3, 1.8),
-        ComboCategory(31, Int.MAX_VALUE, 3.0, 4, 2.2)
+        ComboCategory(11, 20, 1.5, 2, 2.0),
+        ComboCategory(21, 30, 2.0, 3, 4.0),
+        ComboCategory(31, Int.MAX_VALUE, 3.0, 4, 6.0)
         //ComboCategory(31, Int.MAX_VALUE, 3.0, 4, 8192.0)
     )
 

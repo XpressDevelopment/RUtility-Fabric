@@ -3,6 +3,7 @@ package network.roanoke.rutility.modules.catchcombo.events
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import net.minecraft.text.Text
 import network.roanoke.rutility.modules.catchcombo.CatchCombo
 import network.roanoke.rutility.utils.Utils
 import java.util.*
@@ -26,8 +27,10 @@ class SpawnEvent(private val module: CatchCombo) {
             if (module.comboPokemon.containsKey(uuid) && module.comboCategory.containsKey(uuid) && entity.pokemon.species.name == module.comboPokemon[uuid]
             ) {
                 if (!entity.pokemon.shiny) {
-                    if(shinyChance <= module.comboCategory[uuid]!!.getShinyChance() / Cobblemon.config.shinyRate)
+                    if(shinyChance <= module.comboCategory[uuid]!!.getShinyChance() / Cobblemon.config.shinyRate) {
+                        Utils.getPlayerByName(player)?.sendMessage(Text.literal("§7You have found a §bShiny ${entity.pokemon.species.name}§7 at §b${module.comboAmount[uuid]} §7Catch Combo."))
                         entity.pokemon.shiny = true
+                    }
                 }
             }
         }
