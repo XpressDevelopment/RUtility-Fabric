@@ -3,7 +3,6 @@ package network.roanoke.rutility
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.minecraft.server.MinecraftServer
-import network.roanoke.rutility.modules.catchcombo.CatchCombo
 import network.roanoke.rutility.modules.levellock.LevelLock
 import network.roanoke.rutility.modules.shinyalert.ShinyAlert
 import network.roanoke.rutility.modules.togglespawns.ToggleSpawns
@@ -53,7 +52,6 @@ class RUtility : ModInitializer {
 
     private fun addModules() {
         _modules.add(ShinyAlert(this, "ShinyAlert"))
-        _modules.add(CatchCombo(this, "CatchCombo"))
         _modules.add(ToggleSpawns(this, "ToggleSpawns"))
         _modules.add(LevelLock(this, "LevelLock"))
     }
