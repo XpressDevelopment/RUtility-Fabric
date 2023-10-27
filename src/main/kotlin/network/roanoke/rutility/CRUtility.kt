@@ -46,13 +46,11 @@ class CRUtility(private val main: RUtility) {
 
             if (module == null) {
                 source.sendMessage(Text.literal("§cModule $moduleName does not exist"))
-                //source.sendFeedback(Text.literal("§cModule $moduleName does not exist"), true)
                 return@Command 0
             }
 
             module.enable(enabled)
-            source.sendMessage(Text.literal(if (enabled) "§aEnabled module: $moduleName" else "§cDisabled module: $moduleName"))
-            //source.sendFeedback(Text.literal(if (enabled) "§aEnabled module: $moduleName" else "§cDisabled module: $moduleName"), true)
+            source.sendFeedback({Text.literal(if (enabled) "§aEnabled module: $moduleName" else "§cDisabled module: $moduleName")}, true)
 
             main.modulesConfig.saveModules()
             1

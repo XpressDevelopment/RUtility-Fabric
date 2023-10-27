@@ -1,7 +1,6 @@
 plugins {
     kotlin("jvm")
     id("fabric-loom")
-    id("architectury-plugin") version("3.4-SNAPSHOT")
     `maven-publish`
     java
 }
@@ -16,6 +15,10 @@ repositories {
             includeGroup("curse.maven")
         }
     }
+
+    mavenCentral()
+    maven("https://oss.sonatype.org/content/repositories/snapshots") // For snapshot builds
+
     maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
     maven("https://maven.impactdev.net/repository/development/")
 }
@@ -29,7 +32,8 @@ dependencies {
     //modImplementation("curse.maven:cobblemon-687131:${property("cobblemon_curse_file_id")}")
     modImplementation("com.cobblemon:fabric:1.4.0+1.20.1-SNAPSHOT")
 
-    modImplementation("dev.architectury", "architectury-fabric", "6.5.69")
+    implementation("cloud.commandframework", "cloud-core", "1.8.4")
+    implementation("net.impactdev.impactor.api:economy:5.1.1-SNAPSHOT")
 }
 
 tasks {

@@ -6,7 +6,6 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
-        maven("https://maven.architectury.dev/")
     }
 
     val loom_version: String by settings

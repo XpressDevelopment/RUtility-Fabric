@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.util.party
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
+import net.impactdev.impactor.api.economy.EconomyService
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.text.Text
@@ -16,7 +17,21 @@ class LevelLockCommand(private val module: LevelLock) {
         CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->
             dispatcher.register(
                 CommandManager.literal("levellock")
-                    .then(CommandManager.argument("slot", IntegerArgumentType.integer()).executes(lockPokemonLevel()))
+                    .then(
+                        CommandManager.argument("slot", IntegerArgumentType.integer())
+                            .executes(lockPokemonLevel())
+                            .then(
+                                CommandManager.argument("level", IntegerArgumentType.integer())
+                                    .executes(lockPokemonLevel())
+                            )
+                    )
+                    .then(
+                        CommandManager.literal("reload").requires { it.hasPermissionLevel(2) }
+                            .executes {
+                                module.loadConfig()
+                                it.source.sendFeedback({ Text.literal("§aReloaded LevelLock Config") }, false)
+                                return@executes 1
+                            })
             )
         })
     }
@@ -31,6 +46,15 @@ class LevelLockCommand(private val module: LevelLock) {
 
             val player = source.player!!
             var slot = IntegerArgumentType.getInteger(it, "slot")
+            var level = 0
+            try {
+                level = IntegerArgumentType.getInteger(it, "level")
+                if (level < 1 || level > 100) {
+                    source.sendMessage(Text.literal("§cInvalid level"))
+                    return@Command 1
+                }
+            } catch (_: IllegalArgumentException) {
+            }
 
             if (slot < 1 || slot > 6) {
                 source.sendMessage(Text.literal("§cInvalid slot"))
@@ -45,16 +69,32 @@ class LevelLockCommand(private val module: LevelLock) {
                 return@Command 1
             }
 
+            if (level != 0) {
+                if (!pokemon.persistentData.contains("levellock")) {
+                    if (level < pokemon.level) {
+                        source.sendMessage(Text.literal("§cYou can't lock your pokemon to a lower level"))
+                        return@Command 1
+                    }
+
+                    if (EconomyService.instance().account(player.uuid).get().balanceAsync()
+                            .get() < module.levelLockCost
+                    ) {
+                        source.sendMessage(Text.literal("§cYou can't afford to lock your pokemon to a level. You need $${module.levelLockCost.toInt()}"))
+                        return@Command 1
+                    } else
+                        EconomyService.instance().account(player.uuid).get().withdrawAsync(module.levelLockCost)
+                }
+            }
+
             if (pokemon.persistentData.contains("levellock")) {
                 pokemon.persistentData.remove("levellock")
                 source.sendMessage(Text.literal("§aUnlocked level for ${pokemon.species.name}"))
                 return@Command 1
             } else {
-                pokemon.persistentData.putBoolean("levellock", true)
-                source.sendMessage(Text.literal("§aLocked level for ${pokemon.species.name}"))
+                pokemon.persistentData.putInt("levellock", level)
+                source.sendMessage(Text.literal("§a${if (level != 0) "Paid $${module.levelLockCost.toInt()} and l" else "L"}ocked level for ${pokemon.species.name}${if (level != 0) ". It will not go over level $level" else ""}"))
                 return@Command 1
             }
         }
     }
-
 }
