@@ -4,6 +4,9 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.minecraft.server.MinecraftServer
 import network.roanoke.rutility.modules.levellock.LevelLock
+import network.roanoke.rutility.modules.pokegift.PokeGift
+import network.roanoke.rutility.modules.show.ShowParty
+import network.roanoke.rutility.modules.show.ShowSlot
 import network.roanoke.rutility.modules.shinyalert.ShinyAlert
 import network.roanoke.rutility.modules.togglespawns.ToggleSpawns
 import network.roanoke.rutility.utils.ModulesConfig
@@ -39,6 +42,8 @@ class RUtility : ModInitializer {
             _serverInstance = server
         }
 
+
+
         addModules()
         _modulesCfg.loadModules()
 
@@ -54,6 +59,9 @@ class RUtility : ModInitializer {
         _modules.add(ShinyAlert(this, "ShinyAlert"))
         _modules.add(ToggleSpawns(this, "ToggleSpawns"))
         _modules.add(LevelLock(this, "LevelLock"))
+        _modules.add(PokeGift(this,"PokeGift"))
+        _modules.add(ShowParty(this,"ShowParty"))
+        _modules.add(ShowSlot(this,"ShowSlot"))
     }
 
     fun getModuleNames(): MutableList<String> {

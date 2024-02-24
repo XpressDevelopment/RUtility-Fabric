@@ -30,7 +30,11 @@ dependencies {
 
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
     //modImplementation("curse.maven:cobblemon-687131:${property("cobblemon_curse_file_id")}")
-    modImplementation("com.cobblemon:fabric:1.4.0+1.20.1-SNAPSHOT")
+    modImplementation ("curse.maven:cobblemon-687131:4977486")
+
+// LuckPerms API
+    modImplementation ("me.lucko:fabric-permissions-api:0.2-SNAPSHOT")
+    compileOnly ("net.luckperms:api:5.4")
 
     implementation("cloud.commandframework", "cloud-core", "1.8.4")
     implementation("net.impactdev.impactor.api:economy:5.1.1-SNAPSHOT")
