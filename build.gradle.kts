@@ -9,13 +9,6 @@ group = property("maven_group")!!
 version = property("mod_version")!!
 
 repositories {
-    maven {
-        url = uri("https://cursemaven.com")
-        content {
-            includeGroup("curse.maven")
-        }
-    }
-
     mavenCentral()
     maven("https://oss.sonatype.org/content/repositories/snapshots") // For snapshot builds
 
@@ -30,7 +23,8 @@ dependencies {
 
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
     //modImplementation("curse.maven:cobblemon-687131:${property("cobblemon_curse_file_id")}")
-    modImplementation ("curse.maven:cobblemon-687131:4977486")
+//    modImplementation ("curse.maven:cobblemon-687131:4977486")
+    modImplementation("com.cobblemon:fabric:${property("cobblemon_version")}")
 
 // LuckPerms API
     modImplementation ("me.lucko:fabric-permissions-api:0.2-SNAPSHOT")

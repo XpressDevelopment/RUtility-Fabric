@@ -3,6 +3,7 @@ package network.roanoke.rutility
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.minecraft.server.MinecraftServer
+import network.roanoke.rutility.modules.battlegodmode.BattleGodMode
 import network.roanoke.rutility.modules.levellock.LevelLock
 import network.roanoke.rutility.modules.pokegift.PokeGift
 import network.roanoke.rutility.modules.show.ShowParty
@@ -42,8 +43,6 @@ class RUtility : ModInitializer {
             _serverInstance = server
         }
 
-
-
         addModules()
         _modulesCfg.loadModules()
 
@@ -62,6 +61,7 @@ class RUtility : ModInitializer {
         _modules.add(PokeGift(this,"PokeGift"))
         _modules.add(ShowParty(this,"ShowParty"))
         _modules.add(ShowSlot(this,"ShowSlot"))
+        _modules.add(BattleGodMode(this,"BattleGodMode"))
     }
 
     fun getModuleNames(): MutableList<String> {

@@ -8,12 +8,12 @@ import java.util.*
 class Utils {
 
     companion object {
-        fun sendMessageToAllPlayers(message: String) {
+        fun broadcast(message: Any) {
             val server = RUtility.serverInstance
 
             for (player in server.playerManager.playerList) {
                 if (player is ServerPlayerEntity) {
-                    player.sendMessage(Text.literal(message), false)
+                    player.sendMessage(Text.literal(message.toString()), false)
                 }
             }
         }

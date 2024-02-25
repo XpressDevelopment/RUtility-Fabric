@@ -33,7 +33,7 @@ class ServerTickHandler(private val module: ShinyAlert) : ServerTickEvents.Start
 
                 if (entity.pokemon.shiny && !list.contains(entity.pokemon)) {
                     list.add(entity.pokemon)
-                    Utils.sendMessageToAllPlayers(
+                    Utils.broadcast(
                         "§b(!) §eA §bShiny ${entity.pokemon.species.name} §ehas spawned on §b${
                             Utils.getPlayerByUUID(
                                 uuid
