@@ -10,10 +10,10 @@ class EntityDamageEvent(private val module: BattleGodMode) : ServerLivingEntityE
 
     override fun allowDamage(entity: LivingEntity?, source: DamageSource?, amount: Float): Boolean {
         if (module.isEnabled())
-            if (entity is PlayerEntity) {
-                if (module.playersInBattle.contains(entity.uuid))
-                    return false
-            }
+            if (entity is PlayerEntity)
+                if (source != null && source.attacker != null && source.attacker is LivingEntity)
+                    if (module.playersInBattle.contains(entity.uuid))
+                        return false
         return true
     }
 

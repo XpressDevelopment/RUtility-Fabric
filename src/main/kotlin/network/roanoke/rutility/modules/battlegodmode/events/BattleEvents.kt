@@ -1,6 +1,7 @@
 package network.roanoke.rutility.modules.battlegodmode.events
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.pokemon.Pokemon
 import network.roanoke.rutility.modules.battlegodmode.BattleGodMode
 
 class BattleEvents(private val module: BattleGodMode) {

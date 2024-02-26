@@ -6,6 +6,7 @@ import network.roanoke.rutility.RModule
 import network.roanoke.rutility.RUtility
 import network.roanoke.rutility.modules.battlegodmode.events.BattleEvents
 import network.roanoke.rutility.modules.battlegodmode.events.EntityDamageEvent
+import network.roanoke.rutility.modules.battlegodmode.events.PlayerDeath
 import network.roanoke.rutility.modules.battlegodmode.events.PlayerDisconnect
 import java.util.*
 
@@ -20,6 +21,7 @@ class BattleGodMode(override val main: RUtility, override val name: String) : RM
         BattleEvents(this)
         ServerPlayConnectionEvents.DISCONNECT.register(PlayerDisconnect(this))
         ServerLivingEntityEvents.ALLOW_DAMAGE.register(EntityDamageEvent(this))
+        ServerLivingEntityEvents.AFTER_DEATH.register(PlayerDeath(this))
     }
 
     override fun isEnabled(): Boolean {
