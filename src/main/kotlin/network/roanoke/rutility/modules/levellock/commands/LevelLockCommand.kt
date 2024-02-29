@@ -24,6 +24,12 @@ class LevelLockCommand(private val module: LevelLock) {
                                 CommandManager.argument("level", IntegerArgumentType.integer())
                                     .executes(lockPokemonLevel())
                             )
+                            .then(
+                                CommandManager.literal("check")
+                                    .executes(
+                                        checkPokemonLock()
+                                    )
+                            )
                     )
                     .then(
                         CommandManager.literal("reload").requires { it.hasPermissionLevel(2) }
@@ -33,7 +39,50 @@ class LevelLockCommand(private val module: LevelLock) {
                                 return@executes 1
                             })
             )
+
         })
+    }
+
+    private fun checkPokemonLock(): Command<ServerCommandSource> {
+        return Command {
+            val source = it.source
+            if (!module.isEnabled()) {
+                source.sendMessage(Text.literal("§cLevelLock is disabled"))
+                return@Command 1
+            }
+
+            val player = source.player!!
+            var slot = IntegerArgumentType.getInteger(it, "slot")
+
+            if (slot < 1 || slot > 6) {
+                source.sendMessage(Text.literal("§cInvalid slot"))
+                return@Command 1
+            }
+            slot -= 1
+
+            val pokemon = player.party().get(slot)
+
+            if (pokemon == null) {
+                source.sendMessage(Text.literal("§cNo pokemon in slot ${slot + 1}"))
+                return@Command 1
+            }
+
+            if (pokemon.persistentData.contains("levellock")) {
+                source.sendMessage(
+                    Text.literal(
+                        "§6${pokemon.species.name} §eis level locked and will not go over level §6${
+                            pokemon.persistentData.getInt(
+                                "levellock"
+                            )
+                        }§e."
+                    )
+                )
+                return@Command 1
+            } else {
+                source.sendMessage(Text.literal("§6${pokemon.species.name} §eis not level locked."))
+                return@Command 1
+            }
+        }
     }
 
     private fun lockPokemonLevel(): Command<ServerCommandSource> {
