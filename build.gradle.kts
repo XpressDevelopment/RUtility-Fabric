@@ -22,11 +22,10 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
-    //modImplementation("curse.maven:cobblemon-687131:${property("cobblemon_curse_file_id")}")
-//    modImplementation ("curse.maven:cobblemon-687131:4977486")
+
     modImplementation("com.cobblemon:fabric:${property("cobblemon_version")}")
 
-// LuckPerms API
+    // LuckPerms API
     modImplementation ("me.lucko:fabric-permissions-api:0.2-SNAPSHOT")
     compileOnly ("net.luckperms:api:5.4")
 

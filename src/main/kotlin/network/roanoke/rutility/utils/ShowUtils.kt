@@ -144,50 +144,50 @@ object ShowUtils {
                 .append("\n")
                 .append(
                     Text.literal("HP: ").formatted(Formatting.GREEN).append(
-                        Text.literal(pokemon.ivs.getOrDefault(Stats.HP).toString()).formatted(
+                        Text.literal(getIvStat(pokemon, Stats.HP).toString()).formatted(
                             Formatting.WHITE
                         )
-                    )
+                    ).append(if (isHyperTrained(pokemon, Stats.HP)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
                 )
                 .append("\n")
                 .append(
                     Text.literal("Attack: ").formatted(Formatting.RED).append(
-                        Text.literal(pokemon.ivs.getOrDefault(Stats.ATTACK).toString()).formatted(
+                        Text.literal(getIvStat(pokemon, Stats.ATTACK).toString()).formatted(
                             Formatting.WHITE
                         )
-                    )
+                    ).append(if (isHyperTrained(pokemon, Stats.ATTACK)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
                 )
                 .append("\n")
                 .append(
                     Text.literal("Defense: ").formatted(Formatting.GOLD).append(
-                        Text.literal(pokemon.ivs.getOrDefault(Stats.DEFENCE).toString()).formatted(
+                        Text.literal(getIvStat(pokemon, Stats.DEFENCE).toString()).formatted(
                             Formatting.WHITE
                         )
-                    )
+                    ).append(if (isHyperTrained(pokemon, Stats.DEFENCE)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
                 )
                 .append("\n")
                 .append(
                     Text.literal("Sp. Attack: ").formatted(Formatting.LIGHT_PURPLE).append(
-                        Text.literal(pokemon.ivs.getOrDefault(Stats.SPECIAL_ATTACK).toString()).formatted(
+                        Text.literal(getIvStat(pokemon, Stats.SPECIAL_ATTACK).toString()).formatted(
                             Formatting.WHITE
                         )
-                    )
+                    ).append(if (isHyperTrained(pokemon, Stats.SPECIAL_ATTACK)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
                 )
                 .append("\n")
                 .append(
                     Text.literal("Sp. Defense: ").formatted(Formatting.YELLOW).append(
-                        Text.literal(pokemon.ivs.getOrDefault(Stats.SPECIAL_DEFENCE).toString()).formatted(
+                        Text.literal(getIvStat(pokemon, Stats.SPECIAL_DEFENCE).toString()).formatted(
                             Formatting.WHITE
                         )
-                    )
+                    ).append(if (isHyperTrained(pokemon, Stats.SPECIAL_DEFENCE)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
                 )
                 .append("\n")
                 .append(
                     Text.literal("Speed: ").formatted(Formatting.AQUA).append(
-                        Text.literal(pokemon.ivs.getOrDefault(Stats.SPEED).toString()).formatted(
+                        Text.literal(getIvStat(pokemon, Stats.SPEED).toString()).formatted(
                             Formatting.WHITE
                         )
-                    )
+                    ).append(if (isHyperTrained(pokemon, Stats.SPEED)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
                 )
         )
         val statsList = statsText.getWithStyle(
@@ -385,53 +385,53 @@ object ShowUtils {
         infoHoverText.append(
             Text.literal("HP: ").formatted(Formatting.GREEN).append(
                 Text.literal(
-                    pokemon.ivs.getOrDefault(Stats.HP).toString()
+                    getIvStat(pokemon, Stats.HP).toString()
                 ).formatted(Formatting.WHITE)
-            )
+            ).append(if (isHyperTrained(pokemon, Stats.HP)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
         ).append(
             Text.literal("\n").append(
                 Text.literal("Attack: ").formatted(Formatting.RED).append(
                     Text.literal(
-                        pokemon.ivs.getOrDefault(Stats.ATTACK).toString()
+                        getIvStat(pokemon, Stats.ATTACK).toString()
                     ).formatted(Formatting.WHITE)
-                )
+                ).append(if (isHyperTrained(pokemon, Stats.ATTACK)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
             )
                 .append("\n")
                 .append(
                     Text.literal("Defense: ").formatted(Formatting.GOLD).append(
                         Text.literal(
-                            pokemon.ivs.getOrDefault(Stats.DEFENCE)
+                            getIvStat(pokemon, Stats.DEFENCE)
                                 .toString()
                         ).formatted(Formatting.WHITE)
-                    )
+                    ).append(if (isHyperTrained(pokemon, Stats.DEFENCE)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
                 )
                 .append("\n")
                 .append(
                     Text.literal("Sp. Attack: ")
                         .formatted(Formatting.LIGHT_PURPLE).append(
                             Text.literal(
-                                pokemon.ivs.getOrDefault(Stats.SPECIAL_ATTACK)
+                                getIvStat(pokemon, Stats.SPECIAL_ATTACK)
                                     .toString()
                             ).formatted(Formatting.WHITE)
-                        )
+                        ).append(if (isHyperTrained(pokemon, Stats.SPECIAL_ATTACK)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
                 )
                 .append("\n")
                 .append(
                     Text.literal("Sp. Defense: ").formatted(Formatting.YELLOW)
                         .append(
                             Text.literal(
-                                pokemon.ivs.getOrDefault(Stats.SPECIAL_DEFENCE)
+                                getIvStat(pokemon, Stats.SPECIAL_DEFENCE)
                                     .toString()
                             ).formatted(Formatting.WHITE)
-                        )
+                        ).append(if (isHyperTrained(pokemon, Stats.SPECIAL_DEFENCE)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
                 )
                 .append("\n")
                 .append(
                     Text.literal("Speed: ").formatted(Formatting.AQUA).append(
                         Text.literal(
-                            pokemon.ivs.getOrDefault(Stats.SPEED).toString()
+                            getIvStat(pokemon, Stats.SPEED).toString()
                         ).formatted(Formatting.WHITE)
-                    )
+                    ).append(if (isHyperTrained(pokemon, Stats.SPEED)) Text.literal(" (HT)").formatted(Formatting.ITALIC).formatted(Formatting.WHITE) else Text.literal(""))
                 )
                 .append("\n\n")
         )
@@ -499,5 +499,14 @@ object ShowUtils {
     private fun formatGenderName(gender: String): String {
         return gender[0].uppercaseChar().toString() + gender.substring(1).lowercase(Locale.getDefault())
     }
+
+    private fun isHyperTrained(pokemon: Pokemon, stat: Stats): Boolean {
+        return pokemon.persistentData.contains("bc_${stat.name.lowercase()}")
+    }
+
+    private fun getIvStat(pokemon: Pokemon, stat: Stats): Int {
+        return if (isHyperTrained(pokemon, stat)) pokemon.persistentData.getInt("bc_${stat.name.lowercase()}") else pokemon.ivs.getOrDefault(stat)
+    }
+
 }
 
