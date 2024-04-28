@@ -1,5 +1,7 @@
 package network.roanoke.rutility.modules.levellock
 
+import net.fabricmc.loader.api.FabricLoader
+import net.impactdev.impactor.api.economy.EconomyService
 import network.roanoke.rutility.RModule
 import network.roanoke.rutility.RUtility
 import network.roanoke.rutility.modules.levellock.commands.LevelLockCommand
@@ -13,6 +15,8 @@ class LevelLock(override val main: RUtility, override val name: String) : RModul
     var levelLockCost: BigDecimal = 100.toBigDecimal()
     private var config: LevelLockConfig = LevelLockConfig(this)
 
+    private var hasEconomy: Boolean = false
+
     init {
         LevelLockCommand(this)
         LevelUpEvent(this)
@@ -25,9 +29,18 @@ class LevelLock(override val main: RUtility, override val name: String) : RModul
     override fun enable(enabled: Boolean) {
         this.enabled = enabled
         main.setModuleStatus(name, enabled)
+
+        if (FabricLoader.getInstance().isModLoaded("impactor"))
+            hasEconomy = true
+        else
+            RUtility.LOGGER.info("Economy service not found.")
     }
 
     fun loadConfig() {
         config.loadConfig()
+    }
+
+    fun hasEconomy(): Boolean {
+        return hasEconomy
     }
 }

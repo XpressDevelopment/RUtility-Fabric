@@ -2,6 +2,7 @@ package network.roanoke.rutility
 
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.server.MinecraftServer
 import network.roanoke.rutility.modules.battlegodmode.BattleGodMode
 import network.roanoke.rutility.modules.levellock.LevelLock
@@ -11,6 +12,8 @@ import network.roanoke.rutility.modules.show.ShowSlot
 import network.roanoke.rutility.modules.shinyalert.ShinyAlert
 import network.roanoke.rutility.modules.togglespawns.ToggleSpawns
 import network.roanoke.rutility.utils.ModulesConfig
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class RUtility : ModInitializer {
 
@@ -19,6 +22,8 @@ class RUtility : ModInitializer {
 
         val serverInstance: MinecraftServer
             get() = _serverInstance
+
+        var  LOGGER: Logger = LoggerFactory.getLogger("RUtility")
     }
 
     private val _modules: MutableList<RModule> = mutableListOf()
