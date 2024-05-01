@@ -1,5 +1,6 @@
 package network.roanoke.rutility.utils
 
+import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import network.roanoke.rutility.RUtility
@@ -13,7 +14,10 @@ class Utils {
 
             for (player in server.playerManager.playerList) {
                 if (player is ServerPlayerEntity) {
-                    player.sendMessage(Text.literal(message.toString()), false)
+                    if (message !is Text)
+                        player.sendMessage(Text.literal(message.toString()), false)
+                    else
+                        player.sendMessage(message, false)
                 }
             }
         }
@@ -37,6 +41,12 @@ class Utils {
             val playerManager = server.playerManager
 
             return playerManager.playerNames
+        }
+
+        fun getTotalIVs(pokemon: Pokemon): Int {
+            var sum = 0
+            pokemon.ivs.forEach { sum += it.value }
+            return sum
         }
     }
 
