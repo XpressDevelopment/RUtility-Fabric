@@ -1,4 +1,4 @@
-package network.roanoke.rutility.modules.poketutils.events
+package network.roanoke.rutility.modules.pocketutils.events
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
@@ -12,48 +12,47 @@ import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-import network.roanoke.rutility.RUtility
-import network.roanoke.rutility.modules.poketutils.PocketUtils
+import network.roanoke.rutility.modules.pocketutils.PocketUtils
 import network.roanoke.rutility.utils.Utils
 
 class UseItemEvent(private val module: PocketUtils): UseItemCallback {
     override fun interact(player: PlayerEntity?, world: World?, hand: Hand?): TypedActionResult<ItemStack> {
         if (!module.isEnabled())
-            return TypedActionResult.success(ItemStack.EMPTY)
+            return TypedActionResult.pass(ItemStack.EMPTY)
 
         if (player == null || world == null || hand == null)
-            return TypedActionResult.success(ItemStack.EMPTY)
+            return TypedActionResult.pass(ItemStack.EMPTY)
 
         if (hand != Hand.MAIN_HAND)
-            return TypedActionResult.success(player.getStackInHand(hand))
+            return TypedActionResult.pass(player.getStackInHand(hand))
 
         if (!Permissions.check(player, "rutility.pocketutils.*"))
             if (!Permissions.check(player, "rutility.pocketutils.healer")
                 && !Permissions.check(player, "rutility.pocketutils.pc")
                 && !player.hasPermissionLevel(2))
-                return TypedActionResult.success(player.getStackInHand(hand))
+                return TypedActionResult.pass(player.getStackInHand(hand))
 
         val itemStack = player.getStackInHand(hand)
 
         val item = itemStack.item
 
         if (item != CobblemonItems.HEALING_MACHINE && item != CobblemonItems.PC)
-            return TypedActionResult.success(player.getStackInHand(hand))
+            return TypedActionResult.pass(player.getStackInHand(hand))
 
         if (module.isOnCooldown(player.uuid.toString()))
-            return TypedActionResult.success(player.getStackInHand(hand))
+            return TypedActionResult.pass(player.getStackInHand(hand))
 
         val p = Utils.getPlayerByUUID(player.uuid)!!
 
         if (p.isInBattle()) {
             p.sendMessage(Text.literal("§cYou cannot use this while in battle!"))
-            return TypedActionResult.success(player.getStackInHand(hand))
+            return TypedActionResult.pass(player.getStackInHand(hand))
         }
 
         when (item) {
             CobblemonItems.HEALING_MACHINE -> {
                 if (!Permissions.check(player, "rutility.pocketutils.use.healer"))
-                    return TypedActionResult.success(player.getStackInHand(hand))
+                    return TypedActionResult.pass(player.getStackInHand(hand))
 
                 if (!module.isHealingOnCooldown(p.uuid.toString())) {
                     if (!p.party().none { it.canBeHealed() }) {
@@ -74,7 +73,7 @@ class UseItemEvent(private val module: PocketUtils): UseItemCallback {
             }
             CobblemonItems.PC -> {
                 if (!Permissions.check(player, "rutility.pocketutils.use.pc"))
-                    return TypedActionResult.success(player.getStackInHand(hand))
+                    return TypedActionResult.pass(player.getStackInHand(hand))
 
                 OpenPCPacket(p.pc().uuid).sendToPlayer(p)
                 p.world.playSoundServer(position = p.pos,
@@ -85,6 +84,6 @@ class UseItemEvent(private val module: PocketUtils): UseItemCallback {
             }
         }
 
-        return TypedActionResult.success(player.getStackInHand(hand))
+        return TypedActionResult.pass(player.getStackInHand(hand))
     }
 }

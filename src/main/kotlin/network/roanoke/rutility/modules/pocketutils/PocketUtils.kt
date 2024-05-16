@@ -1,10 +1,10 @@
-package network.roanoke.rutility.modules.poketutils
+package network.roanoke.rutility.modules.pocketutils
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import network.roanoke.rutility.RModule
 import network.roanoke.rutility.RUtility
-import network.roanoke.rutility.modules.poketutils.events.UseItemEvent
+import network.roanoke.rutility.modules.pocketutils.events.UseItemEvent
 
 class PocketUtils(override val main: RUtility, override val name: String) : RModule {
     private var enabled = false
@@ -47,28 +47,12 @@ class PocketUtils(override val main: RUtility, override val name: String) : RMod
         cooldownUsers[uuid] = time
     }
 
-    fun removeCooldownUser(uuid: String) {
-        cooldownUsers.remove(uuid)
-    }
-
-    fun getCooldownUser(uuid: String): Int? {
-        return cooldownUsers[uuid]
-    }
-
     fun isOnCooldown(uuid: String): Boolean {
         return cooldownUsers.containsKey(uuid)
     }
 
     fun setHealingCooldownUser(uuid: String, time: Int) {
         healingCooldownUsers[uuid] = time
-    }
-
-    fun removeHealingCooldownUser(uuid: String) {
-        healingCooldownUsers.remove(uuid)
-    }
-
-    fun getHealingCooldownUser(uuid: String): Int? {
-        return healingCooldownUsers[uuid]
     }
 
     fun isHealingOnCooldown(uuid: String): Boolean {

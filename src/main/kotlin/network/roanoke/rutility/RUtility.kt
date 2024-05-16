@@ -2,15 +2,13 @@ package network.roanoke.rutility
 
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
-import net.fabricmc.loader.api.FabricLoader
 import net.luckperms.api.LuckPerms
 import net.luckperms.api.LuckPermsProvider
 import net.minecraft.server.MinecraftServer
 import network.roanoke.rutility.modules.battlegodmode.BattleGodMode
 import network.roanoke.rutility.modules.levellock.LevelLock
 import network.roanoke.rutility.modules.pokegift.PokeGift
-import network.roanoke.rutility.modules.poketutils.PocketUtils
+import network.roanoke.rutility.modules.pocketutils.PocketUtils
 import network.roanoke.rutility.modules.show.ShowParty
 import network.roanoke.rutility.modules.show.ShowSlot
 import network.roanoke.rutility.modules.shinyalert.ShinyAlert
