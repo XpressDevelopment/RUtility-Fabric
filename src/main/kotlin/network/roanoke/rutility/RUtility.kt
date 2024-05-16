@@ -2,11 +2,15 @@ package network.roanoke.rutility
 
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.loader.api.FabricLoader
+import net.luckperms.api.LuckPerms
+import net.luckperms.api.LuckPermsProvider
 import net.minecraft.server.MinecraftServer
 import network.roanoke.rutility.modules.battlegodmode.BattleGodMode
 import network.roanoke.rutility.modules.levellock.LevelLock
 import network.roanoke.rutility.modules.pokegift.PokeGift
+import network.roanoke.rutility.modules.poketutils.PocketUtils
 import network.roanoke.rutility.modules.show.ShowParty
 import network.roanoke.rutility.modules.show.ShowSlot
 import network.roanoke.rutility.modules.shinyalert.ShinyAlert
@@ -23,7 +27,11 @@ class RUtility : ModInitializer {
         val serverInstance: MinecraftServer
             get() = _serverInstance
 
+        var luckPerms: LuckPerms? = null
+
         var  LOGGER: Logger = LoggerFactory.getLogger("RUtility")
+
+        var onCooldown: Boolean = false
     }
 
     private val _modules: MutableList<RModule> = mutableListOf()
@@ -46,6 +54,12 @@ class RUtility : ModInitializer {
         CRUtility(this)
         ServerLifecycleEvents.SERVER_STARTED.register { server: MinecraftServer ->
             _serverInstance = server
+
+            try {
+                luckPerms = LuckPermsProvider.get()
+            } catch (e: Exception) {
+                println("LuckPerms not found.")
+            }
         }
 
         addModules()
@@ -67,6 +81,7 @@ class RUtility : ModInitializer {
         _modules.add(ShowParty(this,"ShowParty"))
         _modules.add(ShowSlot(this,"ShowSlot"))
         _modules.add(BattleGodMode(this,"BattleGodMode"))
+        _modules.add(PocketUtils(this, "PocketUtils"))
     }
 
     fun getModuleNames(): MutableList<String> {
