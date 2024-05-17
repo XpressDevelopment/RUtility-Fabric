@@ -2,6 +2,9 @@ package network.roanoke.rutility.modules.pocketutils.events
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.permission.CobblemonPermissions
+import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
+import com.cobblemon.mod.common.api.storage.pc.link.PermissiblePcLink
 import com.cobblemon.mod.common.net.messages.client.storage.pc.OpenPCPacket
 import com.cobblemon.mod.common.util.*
 import me.lucko.fabric.api.permissions.v0.Permissions
@@ -51,7 +54,7 @@ class UseItemEvent(private val module: PocketUtils): UseItemCallback {
 
         when (item) {
             CobblemonItems.HEALING_MACHINE -> {
-                if (!Permissions.check(player, "rutility.pocketutils.use.healer"))
+                if (!Permissions.check(player, "rutility.pocketutils.healer"))
                     return TypedActionResult.pass(player.getStackInHand(hand))
 
                 if (!module.isHealingOnCooldown(p.uuid.toString())) {
@@ -72,9 +75,11 @@ class UseItemEvent(private val module: PocketUtils): UseItemCallback {
                 module.setCooldownUser(p.uuid.toString(), 1)
             }
             CobblemonItems.PC -> {
-                if (!Permissions.check(player, "rutility.pocketutils.use.pc"))
+                if (!Permissions.check(player, "rutility.pocketutils.pc"))
                     return TypedActionResult.pass(player.getStackInHand(hand))
 
+                val pc = p.pc()
+                PCLinkManager.addLink(PermissiblePcLink(pc, p, CobblemonPermissions.PC))
                 OpenPCPacket(p.pc().uuid).sendToPlayer(p)
                 p.world.playSoundServer(position = p.pos,
                     sound = CobblemonSounds.PC_ON,
