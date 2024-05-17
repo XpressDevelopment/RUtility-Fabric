@@ -2,7 +2,8 @@ package network.roanoke.rutility.modules.pocketutils.events
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.api.permission.CobblemonPermissions
+import com.cobblemon.mod.common.api.permission.CobblemonPermission
+import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.pc.link.PermissiblePcLink
 import com.cobblemon.mod.common.net.messages.client.storage.pc.OpenPCPacket
@@ -79,7 +80,7 @@ class UseItemEvent(private val module: PocketUtils): UseItemCallback {
                     return TypedActionResult.pass(player.getStackInHand(hand))
 
                 val pc = p.pc()
-                PCLinkManager.addLink(PermissiblePcLink(pc, p, CobblemonPermissions.PC))
+                PCLinkManager.addLink(PermissiblePcLink(pc, p, CobblemonPermission("rutility.pocketutils.pc", PermissionLevel.NONE)))
                 OpenPCPacket(p.pc().uuid).sendToPlayer(p)
                 p.world.playSoundServer(position = p.pos,
                     sound = CobblemonSounds.PC_ON,
