@@ -7,6 +7,7 @@ import net.luckperms.api.LuckPermsProvider
 import net.minecraft.server.MinecraftServer
 import network.roanoke.rutility.modules.battlegodmode.BattleGodMode
 import network.roanoke.rutility.modules.levellock.LevelLock
+import network.roanoke.rutility.modules.magikarp.Magikarp
 import network.roanoke.rutility.modules.pokegift.PokeGift
 import network.roanoke.rutility.modules.pocketutils.PocketUtils
 import network.roanoke.rutility.modules.show.ShowParty
@@ -80,6 +81,7 @@ class RUtility : ModInitializer {
         _modules.add(ShowSlot(this,"ShowSlot"))
         _modules.add(BattleGodMode(this,"BattleGodMode"))
         _modules.add(PocketUtils(this, "PocketUtils"))
+        _modules.add(Magikarp(this, "Magikarp"))
     }
 
     fun getModuleNames(): MutableList<String> {
