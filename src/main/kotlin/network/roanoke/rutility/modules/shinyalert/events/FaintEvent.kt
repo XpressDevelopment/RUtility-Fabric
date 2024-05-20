@@ -16,10 +16,10 @@ class FaintEvent(private val module: ShinyAlert) {
                      if (module.faintedPokemon.contains(it.pokemon.uuid.toString()))
                          return@subscribe
 
-                     val prefix = if (it.pokemon.getDisplayName().contains(Text.literal("Boss"))) " " else "§4Shiny "
+                     val prefix = if (it.pokemon.getDisplayName().contains(Text.literal("Boss"))) " " else " §4Shiny "
 
                      Utils.broadcast(
-                         Text.literal("§b(!) $prefix").append(it.pokemon.getDisplayName()).append(Text.literal(" §4has been defeated..."))
+                         Text.literal("§b(!)$prefix").append(it.pokemon.getDisplayName()).append(Text.literal(" §4has been defeated..."))
                      )
                      module.faintedPokemon[it.pokemon.uuid.toString()] = 20 * 10
                  }
