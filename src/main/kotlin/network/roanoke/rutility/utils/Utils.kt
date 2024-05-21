@@ -1,10 +1,11 @@
 package network.roanoke.rutility.utils
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.network.packet.s2c.play.SubtitleS2CPacket
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import network.roanoke.rutility.RUtility
@@ -76,6 +77,34 @@ class Utils {
                 target.networkHandler.sendPacket(TitleS2CPacket(Text.literal(message.toString())))
             else
                 target.networkHandler.sendPacket(TitleS2CPacket(message))
+        }
+
+        fun playSoundAll(sound: SoundEvent) {
+            val server = RUtility.serverInstance
+
+            for (player in server.playerManager.playerList) {
+                if (player is ServerPlayerEntity) {
+                    player.world!!.playSound(
+                        null,
+                        player.steppingPos,
+                        sound,
+                        SoundCategory.NEUTRAL,
+                        1f,
+                        1f
+                    )
+                }
+            }
+        }
+
+        fun playSoundPlayer(player: ServerPlayerEntity, sound: SoundEvent) {
+            player.world!!.playSound(
+                null,
+                player.steppingPos,
+                sound,
+                SoundCategory.NEUTRAL,
+                1f,
+                1f
+            )
         }
 
         fun getPlayerByUUID(uuid: UUID): ServerPlayerEntity? {
