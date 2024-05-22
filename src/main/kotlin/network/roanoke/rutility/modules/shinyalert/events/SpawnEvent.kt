@@ -15,9 +15,9 @@ class SpawnEvent(private val module: ShinyAlert) {
                 return@subscribe
 
             if (it.entity.pokemon.shiny) {
+
                 Utils.broadcast(
-                    Text.literal("§b(!) §eA §bShiny ").append(it.entity.pokemon.getDisplayName())
-                        .append(Text.literal(" §ehas spawned on §b${it.ctx.spawner.name}§e!"))
+                    Text.literal("§b(!) §eA §bShiny ${it.entity.pokemon.species.name} §ehas spawned on §b${it.ctx.spawner.name}§e!")
                 )
             }
         }
