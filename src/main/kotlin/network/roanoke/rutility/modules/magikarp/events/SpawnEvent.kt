@@ -4,8 +4,10 @@ import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.server.world.ServerWorld
 import network.roanoke.rutility.modules.magikarp.Magikarp
+import network.roanoke.rutility.modules.magikarp.objects.Magikarpd
 import network.roanoke.rutility.utils.Utils
 
 class SpawnEvent(private val module: Magikarp) {
@@ -28,7 +30,7 @@ class SpawnEvent(private val module: Magikarp) {
                         if (event.entity.pokemon.shiny)
                             it.pokemon.shiny = true
                         if (Math.random() <= 0.01)
-                            PokemonProperties.parse("shiny").apply(it)
+                            PokemonProperties.parse("star").apply(it)
                         it.setPosition(Utils.checkBlocksAbove(event.entity).toCenterPos())
                     }
                 }
@@ -44,7 +46,7 @@ class SpawnEvent(private val module: Magikarp) {
                             if (event.entity.pokemon.shiny)
                                 it.pokemon.shiny = true
                             if (Math.random() <= 0.01)
-                                PokemonProperties.parse("shiny").apply(it)
+                                PokemonProperties.parse("star").apply(it)
                             it.setPosition(Utils.checkBlocksAbove(event.entity).toCenterPos())
                         }
                     }
