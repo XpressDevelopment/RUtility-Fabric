@@ -1,5 +1,6 @@
 package network.roanoke.rutility.modules.pocketutils
 
+import com.cobblemon.mod.common.util.removeIf
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import network.roanoke.rutility.RModule
@@ -17,20 +18,17 @@ class PocketUtils(override val main: RUtility, override val name: String) : RMod
 
         ServerTickEvents.START_SERVER_TICK.register {
             cooldownUsers.forEach {
-                if (it.value > 0) {
+                if (it.value > 0)
                     cooldownUsers[it.key] = it.value - 1
-                } else {
-                    cooldownUsers.remove(it.key)
-                }
             }
 
             healingCooldownUsers.forEach {
-                if (it.value > 0) {
+                if (it.value > 0)
                     healingCooldownUsers[it.key] = it.value - 1
-                } else {
-                    healingCooldownUsers.remove(it.key)
-                }
             }
+
+            cooldownUsers.removeIf { it.value <= 0 }
+            healingCooldownUsers.removeIf { it.value <= 0 }
         }
     }
 
