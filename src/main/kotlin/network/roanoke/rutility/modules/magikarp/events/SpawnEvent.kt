@@ -24,7 +24,7 @@ class SpawnEvent(private val module: Magikarp) {
             val globalMagikarpd = module.magikarpManager.globalQueue
 
             for (magikarp in globalMagikarpd) {
-                if (magikarp.activated) {
+                if (magikarp.activated && !event.entity.pokemon.shiny) {
                     event.cancel()
                     PokemonSpecies.getByName("magikarp")!!.create(event.entity.pokemon.level).sendOut(event.entity.world as ServerWorld, event.entity.pos, null) {
                         if (event.entity.pokemon.shiny)
@@ -40,7 +40,7 @@ class SpawnEvent(private val module: Magikarp) {
                 val playerMagikarpd = module.magikarpManager.playerQueues[uuid.toString()] ?: return@subscribe
 
                 for (magikarp in playerMagikarpd) {
-                    if (magikarp.activated) {
+                    if (magikarp.activated && !event.entity.pokemon.shiny) {
                         event.cancel()
                         PokemonSpecies.getByName("magikarp")!!.create(event.entity.pokemon.level).sendOut(event.entity.world as ServerWorld, event.entity.pos, null) {
                             if (event.entity.pokemon.shiny)
