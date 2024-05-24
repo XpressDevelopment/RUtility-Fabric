@@ -14,7 +14,7 @@ class LevelUpEvent(private val module: LevelLock) {
             if (pokemon.persistentData.contains("levellock")) {
                 val lockedLevel = pokemon.persistentData.getInt("levellock")
                 if (lockedLevel == 0 || lockedLevel < event.newLevel)
-                    event.newLevel = event.oldLevel
+                    event.newLevel = if (lockedLevel == 0) event.oldLevel else lockedLevel
             }
         }
     }
