@@ -95,15 +95,7 @@ class LevelLockCommand(private val module: LevelLock) {
 
             val player = source.player!!
             var slot = IntegerArgumentType.getInteger(it, "slot")
-            var level = 0
-            try {
-                level = IntegerArgumentType.getInteger(it, "level")
-                if (level < 1 || level > 100) {
-                    source.sendMessage(Text.literal("§cInvalid level"))
-                    return@Command 1
-                }
-            } catch (_: IllegalArgumentException) {
-            }
+            var level: Int
 
             if (slot < 1 || slot > 6) {
                 source.sendMessage(Text.literal("§cInvalid slot"))
@@ -118,7 +110,17 @@ class LevelLockCommand(private val module: LevelLock) {
                 return@Command 1
             }
 
-            if (level != 0) {
+            try {
+                level = IntegerArgumentType.getInteger(it, "level")
+                if (level < 1 || level > 100) {
+                    source.sendMessage(Text.literal("§cInvalid level"))
+                    return@Command 1
+                }
+            } catch (_: IllegalArgumentException) {
+                level = pokemon.level
+            }
+
+            if (level != pokemon.level) {
                 if (!pokemon.persistentData.contains("levellock")) {
                     if (level < pokemon.level) {
                         source.sendMessage(Text.literal("§cYou can't lock your pokemon to a lower level"))
@@ -144,9 +146,9 @@ class LevelLockCommand(private val module: LevelLock) {
             } else {
                 pokemon.persistentData.putInt("levellock", level)
                 if (module.hasEconomy())
-                    source.sendMessage(Text.literal("§a${if (level != 0) "Paid $${module.levelLockCost.toInt()} and l" else "L"}ocked level for ${pokemon.species.name}${if (level != 0) ". It will not go over level $level" else ""}"))
+                    source.sendMessage(Text.literal("§a${if (level != pokemon.level) "Paid $${module.levelLockCost.toInt()} and l" else "L"}ocked level for ${pokemon.species.name}${if (level != 0) ". It will not go over level $level" else ""}"))
                 else
-                    source.sendMessage(Text.literal("§aLocked level for ${pokemon.species.name}${if (level != 0) ". It will not go over level $level" else ""}"))
+                    source.sendMessage(Text.literal("§aLocked level for ${pokemon.species.name}${if (level != pokemon.level) ". It will not go over level $level" else ""}"))
                 return@Command 1
             }
         }
