@@ -36,8 +36,9 @@ class BonkStick(override val main: RUtility, override val name: String) : RModul
         if (item.item == Items.STICK)
             if (item.hasEnchantments()) {
                 item.enchantments.forEach { enchantment ->
-                    if (enchantment.toString().contains("id:\"minecraft:knockback\"") && enchantment.toString()
-                            .contains("lvl:255")
+                    if ((enchantment.toString().contains("id:\"minecraft:knockback\"") || enchantment.toString()
+                            .contains("id:\"knockback\""))
+                        && enchantment.toString().contains("lvl:255")
                     )
                         return true
                 }
@@ -53,7 +54,7 @@ class BonkStick(override val main: RUtility, override val name: String) : RModul
         val nbtLore = display.get("Lore") as NbtList
         nbtLore.forEach { lore ->
             if (lore.toString().contains("§6Relic"))
-               return nbt.getString("id") == "roanoke:dimms_stick"
+                return nbt.getString("id") == "roanoke:dimms_stick"
         }
 
         return false
