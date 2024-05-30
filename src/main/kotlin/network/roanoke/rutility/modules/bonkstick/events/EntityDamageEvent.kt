@@ -21,6 +21,12 @@ class EntityDamageEvent(private val module: BonkStick): ServerLivingEntityEvents
                     val player = source.attacker as ServerPlayerEntity
                     val itemStack = player.mainHandStack
                     if (module.isBonkStick(itemStack)) {
+                        if (module.isOldBonkStick(itemStack)) {
+                            module.replaceOldBonkStick(itemStack, player)
+                            player.sendMessage(Text.literal("§6Whoops! That's not the right item. Let me replace it for you."), false)
+                            return false
+                        }
+
                         if (entity.pokemon.shiny || entity.pokemon.isLegendary() || entity.pokemon.isPlayerOwned())
                             return false
                         entity.remove(Entity.RemovalReason.DISCARDED)
