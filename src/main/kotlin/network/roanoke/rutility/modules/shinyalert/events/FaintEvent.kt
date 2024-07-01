@@ -1,6 +1,7 @@
 package network.roanoke.rutility.modules.shinyalert.events
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.text.Text
 import network.roanoke.rutility.modules.shinyalert.ShinyAlert
 import network.roanoke.rutility.utils.Utils
@@ -16,14 +17,10 @@ class FaintEvent(private val module: ShinyAlert) {
                 if (module.faintedPokemon.contains(it.pokemon.uuid.toString()))
                     return@subscribe
 
-                val boss = it.pokemon.getDisplayName().contains(Text.literal("Boss"))
+                val nbt = it.pokemon.persistentData
+                val boss = nbt.getBoolean("boss")
 
-                if (boss)
-                    Utils.broadcast(
-                        Text.literal("§b(!) ").append(it.pokemon.getDisplayName())
-                            .append(Text.literal(" §4has been defeated..."))
-                    )
-                else
+                if (!boss)
                     Utils.broadcast(
                         Text.literal("§b(!) §4Shiny ${it.pokemon.species.name} has been defeated...")
                     )
