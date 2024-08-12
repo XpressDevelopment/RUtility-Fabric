@@ -11,6 +11,7 @@ import network.roanoke.rutility.modules.levellock.LevelLock
 import network.roanoke.rutility.modules.magikarp.Magikarp
 import network.roanoke.rutility.modules.pokegift.PokeGift
 import network.roanoke.rutility.modules.pocketutils.PocketUtils
+import network.roanoke.rutility.modules.runningshoes.RunningShoes
 import network.roanoke.rutility.modules.show.ShowParty
 import network.roanoke.rutility.modules.show.ShowSlot
 import network.roanoke.rutility.modules.shinyalert.ShinyAlert
@@ -84,6 +85,7 @@ class RUtility : ModInitializer {
         _modules.add(PocketUtils(this, "PocketUtils"))
         _modules.add(Magikarp(this, "Magikarp"))
         _modules.add(BonkStick(this, "BonkStick"))
+        _modules.add(RunningShoes(this, "RunningShoes"))
     }
 
     fun getModuleNames(): MutableList<String> {

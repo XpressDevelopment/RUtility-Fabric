@@ -1,6 +1,10 @@
 package network.roanoke.rutility.utils
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.network.packet.s2c.play.SubtitleS2CPacket
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
@@ -139,6 +143,33 @@ class Utils {
                 }
             }
             return pos.up(height)
+        }
+
+        fun isRunningShoes(item: ItemStack): Boolean {
+            return isOldRunningShoes(item) || isNewRunningShoes(item)
+        }
+
+        fun isOldRunningShoes(item: ItemStack?): Boolean {
+            val copy = item?.copy()
+            return copy?.orCreateNbt?.getString("id") == "roanoke:old_running_shoes"
+        }
+
+        fun isNewRunningShoes(item: ItemStack?): Boolean {
+            val copy = item?.copy()
+            return copy?.orCreateNbt?.getString("id") == "roanoke:running_shoes"
+        }
+
+        fun addSpeedModifier(player: PlayerEntity, speedMultiplier: Double) {
+            val attribute = player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)
+            val modifier = EntityAttributeModifier(player.uuid, "Speed boost", speedMultiplier - 1, EntityAttributeModifier.Operation.MULTIPLY_BASE)
+            attribute?.removeModifier(modifier.id)
+            attribute?.addPersistentModifier(modifier)
+        }
+
+        fun removeSpeedModifier(player: PlayerEntity) {
+            val attribute = player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)
+            val modifier = EntityAttributeModifier(player.uuid, "Speed boost", 0.0, EntityAttributeModifier.Operation.MULTIPLY_BASE)
+            attribute?.removeModifier(modifier.id)
         }
 
     }
