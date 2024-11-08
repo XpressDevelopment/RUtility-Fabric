@@ -35,9 +35,9 @@ class CShowParty(private val module: ShowParty) {
         try {
             if (ctx.source.player != null) {
                 val player = ctx.source.player
-                val partyStore = Cobblemon.storage.getParty(player!!.uuid)
-                val toSend = player.displayName.copy().append(Text.of(": ")).formatted(Formatting.WHITE)
-                toSend.append(ShowUtils.displayParty(partyStore))
+                val partyStore = Cobblemon.storage.getParty(player!!)
+                val toSend = player.displayName?.copy()?.append(Text.of(": "))?.formatted(Formatting.WHITE)
+                toSend?.append(ShowUtils.displayParty(partyStore))
 
                 // If toSend is null or empty, it means the party was empty
                 if (toSend != null && toSend.toString().isNotEmpty()) {

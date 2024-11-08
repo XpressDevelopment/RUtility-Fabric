@@ -39,17 +39,19 @@ class CShowSlot(private val module: ShowSlot) {
         try {
             if (ctx.source.player != null) {
                 val player = ctx.source.player
-                val partyStore = Cobblemon.storage.getParty(ctx.source.player!!.uuid)
+                val partyStore = Cobblemon.storage.getParty(ctx.source.player!!)
                 val slot = IntegerArgumentType.getInteger(ctx, "slot")
                 val pokemon = partyStore.get(slot - 1)
                 if (pokemon != null) {
-                    val toSend = player!!.displayName.copy().append(Text.of(": ")).formatted(Formatting.WHITE)
+                    val toSend = player!!.displayName?.copy()?.append(Text.of(": "))?.formatted(Formatting.WHITE)
                     val pokemonName = pokemon.species.translatedName.formatted(Formatting.GREEN).append(" ")
-                    toSend.append(pokemonName)
+                    toSend?.append(pokemonName)
                     if (pokemon.shiny) {
-                        toSend.append(Text.literal("★ ").formatted(Formatting.GOLD))
+                        toSend?.append(Text.literal("★ ").formatted(Formatting.GOLD))
                     }
-                    ShowUtils.getHoverText(toSend, pokemon)
+                    if (toSend != null) {
+                        ShowUtils.getHoverText(toSend, pokemon)
+                    }
                     ctx.source.server.playerManager.playerList.forEach(Consumer { serverPlayer: ServerPlayerEntity ->
                         serverPlayer.sendMessage(
                             toSend

@@ -1,6 +1,7 @@
 package network.roanoke.rutility.utils
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
@@ -11,6 +12,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import network.roanoke.rutility.RUtility
 import java.util.*
@@ -150,26 +152,29 @@ class Utils {
         }
 
         fun isOldRunningShoes(item: ItemStack?): Boolean {
-            val copy = item?.copy()
-            return copy?.orCreateNbt?.getString("id") == "roanoke:old_running_shoes"
+            val nbt = item?.copy()?.components?.get(DataComponentTypes.CUSTOM_DATA)?.copyNbt() ?: return false
+            return nbt.getString("id") == "roanoke:old_running_shoes"
         }
 
         fun isNewRunningShoes(item: ItemStack?): Boolean {
-            val copy = item?.copy()
-            return copy?.orCreateNbt?.getString("id") == "roanoke:running_shoes"
+            val nbt = item?.copy()?.components?.get(DataComponentTypes.CUSTOM_DATA)?.copyNbt() ?: return false
+            return nbt.getString("id") == "roanoke:running_shoes"
         }
 
         fun addSpeedModifier(player: PlayerEntity, speedMultiplier: Double) {
+            val modifierId = Identifier.of(player.uuid.toString())
             val attribute = player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)
-            val modifier = EntityAttributeModifier(player.uuid, "Speed boost", speedMultiplier - 1, EntityAttributeModifier.Operation.MULTIPLY_BASE)
-            attribute?.removeModifier(modifier.id)
+            val modifier = EntityAttributeModifier(modifierId, speedMultiplier - 1, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            attribute?.removeModifier(modifier)
             attribute?.addPersistentModifier(modifier)
+
         }
 
         fun removeSpeedModifier(player: PlayerEntity) {
+            val modifierId = Identifier.of(player.uuid.toString())
             val attribute = player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)
-            val modifier = EntityAttributeModifier(player.uuid, "Speed boost", 0.0, EntityAttributeModifier.Operation.MULTIPLY_BASE)
-            attribute?.removeModifier(modifier.id)
+            val modifier = EntityAttributeModifier(modifierId, 0.0, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            attribute?.removeModifier(modifier)
         }
 
     }

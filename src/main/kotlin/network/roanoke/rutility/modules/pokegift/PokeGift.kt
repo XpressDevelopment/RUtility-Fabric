@@ -76,7 +76,7 @@ class PokeGift (override val main: RUtility, override val name: String) : RModul
             }
 
             // Step 1: Retrieve the Pokemon in Player1's selected slot and store it in memory
-            val senderPartyStore = storage.getParty(sender.uuid)
+            val senderPartyStore = storage.getParty(sender)
             val adjustedSlot = slot - 1 // Adjust for 0-based index
             val pokemonToGift = senderPartyStore.get(adjustedSlot)
             if (pokemonToGift == null) {
@@ -99,11 +99,11 @@ class PokeGift (override val main: RUtility, override val name: String) : RModul
             }
 
             // Step 3: Try to add the Pokemon to Player2's party. If the party is full, move to their PC.
-            val targetPartyStore = storage.getParty(targetPlayer.uuid)
+            val targetPartyStore = storage.getParty(targetPlayer)
             val addedToParty = targetPartyStore.add(pokemonToGift)
             if (!addedToParty) {
                 // Party is full, try to add to PC
-                val targetPCStore = storage.getPC(targetPlayer.uuid)
+                val targetPCStore = storage.getPC(targetPlayer)
                 val addedToPC = targetPCStore.add(pokemonToGift)
                 if (!addedToPC) {
                     context.source.sendError(Text.of("The target player's PC is full. The Pokemon could not be transferred."))

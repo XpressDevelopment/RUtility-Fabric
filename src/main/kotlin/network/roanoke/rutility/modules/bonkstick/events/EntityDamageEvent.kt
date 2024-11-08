@@ -21,31 +21,10 @@ class EntityDamageEvent(private val module: BonkStick): ServerLivingEntityEvents
                     val player = source.attacker as ServerPlayerEntity
                     val itemStack = player.mainHandStack
                     if (module.isBonkStick(itemStack)) {
-                        if (module.isOldBonkStick(itemStack)) {
-                            module.replaceOldBonkStick(itemStack, player)
-                            player.sendMessage(Text.literal("§6Whoops! That's not the right item. Let me replace it for you."), false)
-                            return false
-                        }
-
                         if (entity.pokemon.shiny || entity.pokemon.isLegendary() || entity.pokemon.isPlayerOwned())
                             return false
                         entity.remove(Entity.RemovalReason.DISCARDED)
                         player.world.playSound(null, player.blockPos, CobblemonSounds.DISPLAY_CASE_REMOVE_ITEM, player.soundCategory, 1.0f, 1.0f)
-                        return false
-                    } else if (module.isDimmsStick(itemStack)) {
-                        if (module.isUpdatedDimmsStick(itemStack))
-                            return false
-
-                        if (player.inventory.emptySlot == -1) {
-                            player.sendMessage(Text.literal("§6Dimms Stick is out of commission.\n" +
-                                    "§eFree up an inventory slot to get the updated version."), false)
-                        } else {
-                            player.sendMessage(Text.literal("§6Dimms Stick is out of commission.\n" +
-                                    "§6You've been given a §5§lBonk Stick §6that does essentially the same.\n" +
-                                    "§6Have Fun!"), false)
-                            module.updateDimmsStick(itemStack)
-                            player.giveItemStack(Stick.getBonkStick())
-                        }
                         return false
                     }
                 }
