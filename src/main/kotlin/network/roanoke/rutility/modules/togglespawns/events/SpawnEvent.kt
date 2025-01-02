@@ -16,9 +16,9 @@ class SpawnEvent(private val module: ToggleSpawns) {
 
             // it.ctx.spawner.name -> player name
             val player = it.ctx.spawner.name
-            val uuid = Utils.getPlayerByName(player)?.uuid
+            val uuid = Utils.getPlayerByName(player)?.uuid ?: return@subscribe
 
-            if (module.isToggled(uuid!!))
+            if (module.isToggled(uuid))
                 it.cancel()
 //                it.entity.remove(Entity.RemovalReason.DISCARDED) // Will produce console warning spam
         }

@@ -11,7 +11,7 @@ class RunningShoes(override val main: RUtility, override val name: String) : RMo
 
     init {
         RunningShoesCommand(this)
-        ServerEntityEvents.EQUIPMENT_CHANGE.register(EquipmentChangeEvent(this))
+        // ServerEntityEvents.EQUIPMENT_CHANGE.register(EquipmentChangeEvent(this))
     }
 
     override fun isEnabled(): Boolean {
